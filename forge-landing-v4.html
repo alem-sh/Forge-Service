@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forge — Digital Products Built to Sell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #080808;
+  --surface: #0f0f0f;
+  --surface-2: #141414;
+  --border: #1c1c1c;
+  --border-2: #262626;
+  --text: #efefef;
+  --muted: #6e6e6e;
+  --faint: #333;
+  --green: #4ade80;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 58px;
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Geist Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lang-switcher {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 11px;
+  font-family: 'Geist Mono', monospace;
+  color: var(--muted);
+  transition: all 0.18s;
+  letter-spacing: 0.05em;
+}
+.lang-btn:hover { color: var(--text); }
+.lang-btn.active { background: var(--border-2); color: var(--text); }
+.lang-btn .flag { font-size: 13px; }
+
+.nav-cta {
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  padding: 8px 18px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.nav-cta:hover { opacity: 0.82; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 140px 24px 80px;
+  text-align: center;
+  position: relative;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 500px;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.026) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border-2);
+  background: var(--surface);
+  padding: 5px 14px 5px 10px;
+  border-radius: 100px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 44px;
+  animation: up 0.7s ease both;
+}
+
+.pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: blink 2.2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%,100% { opacity:1; }
+  50% { opacity: 0.25; }
+}
+
+.hero-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(48px, 7.5vw, 92px);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  max-width: 860px;
+  animation: up 0.7s 0.08s ease both;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--muted);
+}
+
+.hero-sub {
+  margin-top: 32px;
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 480px;
+  font-weight: 300;
+  line-height: 1.75;
+  animation: up 0.7s 0.16s ease both;
+}
+
+.hero-actions {
+  margin-top: 44px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  animation: up 0.7s 0.24s ease both;
+}
+
+.btn-white {
+  background: var(--text);
+  color: var(--bg);
+  padding: 12px 26px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.15s;
+  letter-spacing: -0.01em;
+}
+.btn-white:hover { opacity: 0.85; transform: translateY(-1px); }
+
+.btn-ghost {
+  color: var(--muted);
+  font-size: 13px;
+  text-decoration: none;
+  border: 1px solid var(--border-2);
+  padding: 11px 20px;
+  border-radius: 8px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.btn-ghost:hover { color: var(--text); border-color: #3a3a3a; }
+
+/* ── RULE ── */
+.rule { width: 100%; height: 1px; background: var(--border); }
+
+/* ── WRAP ── */
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 88px 32px;
+}
+
+.section-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--faint);
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+
+.serif-h {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+.serif-h em { font-style: italic; color: var(--muted); }
+
+.section-sub {
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.75;
+  max-width: 500px;
+  margin-bottom: 52px;
+}
+
+/* ── PACKAGES ── */
+.pkg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.pkg {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 32px 28px;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: border-color 0.22s, transform 0.22s;
+}
+.pkg:hover { border-color: var(--border-2); transform: translateY(-3px); }
+
+.pkg.featured {
+  border-color: #2c2c2c;
+  background: #101010;
+}
+
+.pkg-popular {
+  position: absolute;
+  top: -1px; right: 20px;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 9px;
+  font-family: 'Geist Mono', monospace;
+  letter-spacing: 0.12em;
+  padding: 3px 10px;
+  border-radius: 0 0 7px 7px;
+  font-weight: 600;
+}
+
+.pkg-tier {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--faint);
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+
+.pkg-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.pkg-currency {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  color: var(--muted);
+}
+
+.pkg-price {
+  font-family: 'Instrument Serif', serif;
+  font-size: 52px;
+  color: var(--text);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.pkg-files {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.pkg-files-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--border-2);
+}
+
+.pkg-tagline {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.55;
+  margin-bottom: 6px;
+  font-style: italic;
+}
+
+.pkg-meta {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  color: var(--faint);
+  margin-bottom: 26px;
+  letter-spacing: 0.04em;
+}
+
+.pkg-sep { height: 1px; background: var(--border); margin-bottom: 22px; }
+
+.pkg-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  flex: 1;
+  margin-bottom: 28px;
+}
+
+.pkg-list li {
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.pkg-list li::before {
+  content: '—';
+  color: var(--faint);
+  font-size: 11px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  font-family: 'Geist Mono', monospace;
+}
+
+.pkg-btn {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--border-2);
+  color: var(--muted);
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: -0.01em;
+}
+.pkg-btn:hover { border-color: #444; color: var(--text); }
+.pkg.featured .pkg-btn {
+  background: var(--text);
+  color: var(--bg);
+  border-color: transparent;
+}
+.pkg.featured .pkg-btn:hover { opacity: 0.85; }
+
+/* ── FORMATS TABLE ── */
+.formats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.formats-grid .fmt-cell:last-child:nth-child(3n - 2) {
+  grid-column: span 3;
+}
+.formats-grid .fmt-cell:last-child:nth-child(3n - 1) {
+  grid-column: span 2;
+}
+
+.fmt-cell {
+  background: var(--bg);
+  padding: 30px 26px;
+  transition: background 0.18s;
+}
+.fmt-cell:hover { background: var(--surface); }
+
+.fmt-icon {
+  font-size: 18px;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.fmt-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.fmt-ext {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  color: var(--faint);
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.fmt-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+/* ── FAQ ── */
+.faq-wrap {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item:last-child { border-bottom: none; }
+
+.faq-q {
+  width: 100%;
+  background: var(--surface);
+  border: none;
+  padding: 22px 28px;
+  text-align: left;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s;
+  line-height: 1.4;
+}
+.faq-q:hover { background: var(--surface-2); }
+
+.faq-icon {
+  color: var(--faint);
+  font-size: 22px;
+  transition: transform 0.28s;
+  flex-shrink: 0;
+  line-height: 1;
+  font-weight: 300;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.36s ease;
+  background: var(--surface);
+}
+.faq-item.open .faq-a { max-height: 320px; }
+
+.faq-a-in {
+  padding: 0 28px 24px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+/* ── CTA ── */
+.cta-block {
+  text-align: center;
+  padding: 96px 32px;
+  position: relative;
+}
+
+.cta-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 600px; height: 380px;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.022) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+.cta-h {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(34px, 5vw, 56px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin-bottom: 14px;
+}
+.cta-h em { font-style: italic; color: var(--muted); }
+
+.cta-sub {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.75;
+  max-width: 360px;
+  margin: 0 auto 36px;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 26px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.foot-logo {
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  color: var(--faint);
+  letter-spacing: 0.12em;
+}
+.foot-note { font-size: 12px; color: var(--faint); }
+
+/* ── ANIMATIONS ── */
+@keyframes up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .wrap { padding: 64px 20px; }
+  .pkg-grid, .formats-grid { grid-template-columns: 1fr; }
+  .formats-grid { gap: 0; }
+  .fmt-cell { border-bottom: 1px solid var(--border); }
+  footer { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://alem-sh.github.io/Forge-Service/forge-intake.html" class="nav-logo">FORGE</a>
+  <ul class="nav-links">
+    <li><a href="#packages" data-i18n="nav_pkg">Packages</a></li>
+    <li><a href="#formats" data-i18n="nav_fmt">File formats</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('en')"><span class="flag">🇬🇧</span> EN</button>
+      <button class="lang-btn" onclick="setLang('it')"><span class="flag">🇮🇹</span> IT</button>
+    </div>
+    <a href="#packages" class="nav-cta" data-i18n="nav_cta">Order now →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="hero-badge">
+    <span class="pulse"></span>
+    <span data-i18n="badge">Open for orders</span>
+  </div>
+
+  <h1 class="hero-title" data-i18n="hero_h">
+    Most digital products<br>fail before they launch.<br><em>Not ours.</em>
+  </h1>
+
+  <p class="hero-sub" data-i18n="hero_sub">
+    We build digital products for creators, coaches and businesses — from a single file to a complete bundle. You tell us what you need. We deliver files ready to sell.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#packages" class="btn-white" data-i18n="hero_cta1">See packages →</a>
+    <a href="#formats" class="btn-ghost" data-i18n="hero_cta2">File formats ↓</a>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- PACKAGES -->
+<div class="wrap" id="packages">
+  <p class="section-eyebrow" data-i18n="pkg_eyebrow">Packages</p>
+  <h2 class="serif-h" data-i18n="pkg_h">Three packages.<br><em>Any file type.</em></h2>
+  <p class="section-sub" data-i18n="pkg_sub">Every file is researched, written and designed from scratch. You choose how many you need.</p>
+
+  <div class="pkg-grid reveal">
+
+    <!-- 1 FILE -->
+    <div class="pkg">
+      <div class="pkg-tier" data-i18n="p1_tier">Single</div>
+      <div class="pkg-price-row">
+        <span class="pkg-currency">$</span>
+        <span class="pkg-price">79</span>
+      </div>
+      <div class="pkg-files">
+        <span class="pkg-files-dot"></span>
+        <span data-i18n="p1_files">1 file</span>
+      </div>
+      <div class="pkg-tagline" data-i18n="p1_tag">One file. Any format. Built to sell.</div>
+      <div class="pkg-meta" data-i18n="p1_meta">one-time · 3 day delivery · 1 revision</div>
+      <div class="pkg-sep"></div>
+      <ul class="pkg-list">
+        <li data-i18n="p1_1">Any format: PDF, DOCX, XLSX, PPTX, HTML and more</li>
+        <li data-i18n="p1_2">Research sourced and written from scratch</li>
+        <li data-i18n="p1_3">Professional design — not a filled-in template</li>
+        <li data-i18n="p1_4">Ready to upload and sell immediately</li>
+      </ul>
+      <a href="https://alem-sh.github.io/Forge-Service/forge-intake.html" class="pkg-btn" data-i18n="pkg_btn">Get started →</a>
+    </div>
+
+    <!-- 3 FILES -->
+    <div class="pkg featured">
+      <div class="pkg-popular" data-i18n="pkg_pop">MOST ORDERED</div>
+      <div class="pkg-tier" data-i18n="p2_tier">Bundle</div>
+      <div class="pkg-price-row">
+        <span class="pkg-currency">$</span>
+        <span class="pkg-price">219</span>
+      </div>
+      <div class="pkg-files">
+        <span class="pkg-files-dot"></span>
+        <span data-i18n="p2_files">3 files</span>
+      </div>
+      <div class="pkg-tagline" data-i18n="p2_tag">A complete product your audience pays for without hesitation.</div>
+      <div class="pkg-meta" data-i18n="p2_meta">one-time · 5 day delivery · 2 revisions</div>
+      <div class="pkg-sep"></div>
+      <ul class="pkg-list">
+        <li data-i18n="p2_1">Any combination of 3 file formats</li>
+        <li data-i18n="p2_2">Consistent visual identity across all files</li>
+        <li data-i18n="p2_3">Each file designed for a different moment of use</li>
+        <li data-i18n="p2_4">Deeper research and sourced methodology</li>
+        <li data-i18n="p2_5">All files coordinated — they work as a system</li>
+      </ul>
+      <a href="https://alem-sh.github.io/Forge-Service/forge-intake.html" class="pkg-btn" data-i18n="pkg_btn">Get started →</a>
+    </div>
+
+    <!-- 5 FILES -->
+    <div class="pkg">
+      <div class="pkg-tier" data-i18n="p3_tier">Full Bundle</div>
+      <div class="pkg-price-row">
+        <span class="pkg-currency">$</span>
+        <span class="pkg-price">429</span>
+      </div>
+      <div class="pkg-files">
+        <span class="pkg-files-dot"></span>
+        <span data-i18n="p3_files">5 files</span>
+      </div>
+      <div class="pkg-tagline" data-i18n="p3_tag">The complete version. Nothing your buyer will wish was included.</div>
+      <div class="pkg-meta" data-i18n="p3_meta">one-time · 7 day delivery · 3 revisions</div>
+      <div class="pkg-sep"></div>
+      <ul class="pkg-list">
+        <li data-i18n="p3_1">Any combination of 5 file formats</li>
+        <li data-i18n="p3_2">Full visual identity system across every file</li>
+        <li data-i18n="p3_3">Startup guide included — tells your buyers how to use each file</li>
+        <li data-i18n="p3_4">Priority queue — your order moves to the front</li>
+        <li data-i18n="p3_5">3 revision rounds included</li>
+      </ul>
+      <a href="https://alem-sh.github.io/Forge-Service/forge-intake.html" class="pkg-btn" data-i18n="pkg_btn">Get started →</a>
+    </div>
+
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- FILE FORMATS -->
+<div class="wrap" id="formats">
+  <p class="section-eyebrow" data-i18n="fmt_eyebrow">File formats</p>
+  <h2 class="serif-h" data-i18n="fmt_h">Every format.<br><em>Any niche.</em></h2>
+  <p class="section-sub" data-i18n="fmt_sub">Tell us what format fits your product. If you're not sure, we'll recommend the right one based on what you want to sell.</p>
+
+  <div class="formats-grid reveal">
+    <div class="fmt-cell">
+      <span class="fmt-icon">📄</span>
+      <div class="fmt-name" data-i18n="f1_name">Guide / Ebook</div>
+      <div class="fmt-ext">PDF</div>
+      <div class="fmt-desc" data-i18n="f1_desc">Multi-chapter documents with callout boxes, checklists, exercises and visual structure. Designed to be read, not skimmed.</div>
+    </div>
+    <div class="fmt-cell">
+      <span class="fmt-icon">📝</span>
+      <div class="fmt-name" data-i18n="f2_name">Template / Workbook</div>
+      <div class="fmt-ext">DOCX</div>
+      <div class="fmt-desc" data-i18n="f2_desc">Editable documents with fillable fields, structured sections and formatted layouts. Built for buyers who need to write directly inside the file.</div>
+    </div>
+    <div class="fmt-cell">
+      <span class="fmt-icon">📊</span>
+      <div class="fmt-name" data-i18n="f3_name">Spreadsheet / Calculator</div>
+      <div class="fmt-ext">XLSX</div>
+      <div class="fmt-desc" data-i18n="f3_desc">Dynamic spreadsheets with formulas, dashboards, charts and automated calculations. Budget planners, trackers, scoring tools — anything data-driven.</div>
+    </div>
+    <div class="fmt-cell">
+      <span class="fmt-icon">🖥️</span>
+      <div class="fmt-name" data-i18n="f4_name">Presentation / Course</div>
+      <div class="fmt-ext">PPTX</div>
+      <div class="fmt-desc" data-i18n="f4_desc">Slide decks for online courses, workshops or visual content. Every slide has a layout, a visual element and a purpose. No blank slides, no filler.</div>
+    </div>
+    <div class="fmt-cell">
+      <span class="fmt-icon">🌐</span>
+      <div class="fmt-name" data-i18n="f5_name">Interactive Tool / Quiz</div>
+      <div class="fmt-ext">HTML</div>
+      <div class="fmt-desc" data-i18n="f5_desc">Calculators, quizzes, interactive checklists and mini-apps. A single file that opens in any browser with no installation or account required.</div>
+    </div>
+    <div class="fmt-cell">
+      <span class="fmt-icon">⚡</span>
+      <div class="fmt-name" data-i18n="f6_name">Cheat Sheet / Quick Reference</div>
+      <div class="fmt-ext">PDF</div>
+      <div class="fmt-desc" data-i18n="f6_desc">One or two pages. Dense, scannable, print-ready. The file your buyers pin above their desk and open before anything else.</div>
+    </div>
+    <div class="fmt-cell">
+      <span class="fmt-icon">🗂️</span>
+      <div class="fmt-name" data-i18n="f7_name">Notion Template</div>
+      <div class="fmt-ext">Notion</div>
+      <div class="fmt-desc" data-i18n="f7_desc">Complete Notion workspaces with databases, properties, views and formulas — delivered with a step-by-step setup guide so your buyers can import and use it immediately.</div>
+    </div>
+    <div class="fmt-cell">
+      <span class="fmt-icon">📦</span>
+      <div class="fmt-name" data-i18n="f8_name">Dataset / Content Library</div>
+      <div class="fmt-ext">CSV · JSON</div>
+      <div class="fmt-desc" data-i18n="f8_desc">Structured data files, resource banks and content libraries. Clean headers, UTF-8 encoding, ready to import into any tool or platform.</div>
+    </div>
+    <div class="fmt-cell">
+      <span class="fmt-icon">✉️</span>
+      <div class="fmt-name" data-i18n="f9_name">Other formats</div>
+      <div class="fmt-ext">on request</div>
+      <div class="fmt-desc" data-i18n="f9_desc">Email sequences, video scripts, landing page copy, ePubs and more. If your product needs a format not listed here, tell us in the intake form — we'll confirm before any payment.</div>
+    </div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- FAQ -->
+<div class="wrap" id="faq">
+  <p class="section-eyebrow" data-i18n="faq_eyebrow">FAQ</p>
+  <h2 class="serif-h" data-i18n="faq_h">Before you order.<br><em>Read this.</em></h2>
+
+  <div class="faq-wrap reveal">
+
+    <div class="faq-item">
+      <button class="faq-q">
+        <span data-i18n="q1">Do I need to provide the content or the text?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-in" data-i18n="a1">No. You fill a focused intake form — your topic, your audience, what you want the product to do for them. We handle research, writing, design and formatting. You review and approve.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">
+        <span data-i18n="q2">Can I choose any combination of file formats?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-in" data-i18n="a2">Yes. If you order the Bundle (3 files), you can choose any 3 formats from the list. Same for the Full Bundle (5 files). If you're not sure what combination makes sense for your product, tell us your topic and goal — we'll recommend the right structure.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">
+        <span data-i18n="q3">Can I sell the files I receive?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-in" data-i18n="a3">Yes, full commercial rights. Once delivered and paid, the files are yours completely. Sell them anywhere — Gumroad, Etsy, Stan Store, your own site. No royalties, no credit required, no restrictions.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">
+        <span data-i18n="q4">What if I need changes after delivery?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-in" data-i18n="a4">Each package includes revision rounds. Changes within the original scope are turned around within 48 hours. Requests outside the agreed scope — new topics, extra files — are treated as a new order. The intake form exists precisely to avoid this: a clear brief means no surprises.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">
+        <span data-i18n="q5">What niches and topics do you cover?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-in" data-i18n="a5">Wellness, fitness, productivity, business, personal finance, coaching, education, mindset, and most adjacent areas. If your topic isn't listed, fill the intake form and describe your idea — we'll confirm before any payment is made.</div></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q">
+        <span data-i18n="q6">How is this different from buying a template on Etsy?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a"><div class="faq-a-in" data-i18n="a6">A template is a blank structure you fill in yourself. What we deliver is a finished product — researched, written, and designed specifically for your topic and your audience. You receive files ready to sell, not files ready to edit.</div></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- CTA -->
+<div class="cta-block">
+  <div class="cta-glow"></div>
+  <h2 class="cta-h reveal" data-i18n="cta_h">Your product.<br><em>Ready by end of week.</em></h2>
+  <p class="cta-sub reveal" data-i18n="cta_sub">Fill the intake form. We confirm the fit. You receive files ready to sell.</p>
+  <a href="https://alem-sh.github.io/Forge-Service/forge-intake.html" class="btn-white reveal" data-i18n="cta_btn">Start the intake form →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">FORGE</div>
+  <div class="foot-note" data-i18n="foot">Digital products built to sell.</div>
+</footer>
+
+<script>
+const T = {
+  en: {
+    nav_pkg:"Packages", nav_fmt:"File formats", nav_cta:"Order now →",
+    badge:"Open for orders",
+    hero_h:"Most digital products<br>fail before they launch.<br><em>Not ours.</em>",
+    hero_sub:"We build digital products for creators, coaches and businesses — from a single file to a complete bundle. You tell us what you need. We deliver files ready to sell.",
+    hero_cta1:"See packages →", hero_cta2:"File formats ↓",
+    pkg_eyebrow:"Packages",
+    pkg_h:"Three packages.<br><em>Any file type.</em>",
+    pkg_sub:"Every file is researched, written and designed from scratch. You choose how many you need.",
+    p1_tier:"Single", p1_files:"1 file",
+    p1_tag:"One file. Any format. Built to sell.",
+    p1_meta:"one-time · 3 day delivery · 1 revision",
+    p1_1:"Any format: PDF, DOCX, XLSX, PPTX, HTML and more",
+    p1_2:"Research sourced and written from scratch",
+    p1_3:"Professional design — not a filled-in template",
+    p1_4:"Ready to upload and sell immediately",
+    p2_tier:"Bundle", p2_files:"3 files",
+    p2_tag:"A complete product your audience pays for without hesitation.",
+    p2_meta:"one-time · 5 day delivery · 2 revisions",
+    p2_1:"Any combination of 3 file formats",
+    p2_2:"Consistent visual identity across all files",
+    p2_3:"Each file designed for a different moment of use",
+    p2_4:"Deeper research and sourced methodology",
+    p2_5:"All files coordinated — they work as a system",
+    p3_tier:"Full Bundle", p3_files:"5 files",
+    p3_tag:"The complete version. Nothing your buyer will wish was included.",
+    p3_meta:"one-time · 7 day delivery · 3 revisions",
+    p3_1:"Any combination of 5 file formats",
+    p3_2:"Full visual identity system across every file",
+    p3_3:"Startup guide included — tells your buyers how to use each file",
+    p3_4:"Priority queue — your order moves to the front",
+    p3_5:"3 revision rounds included",
+    pkg_btn:"Get started →", pkg_pop:"MOST ORDERED",
+    fmt_eyebrow:"File formats",
+    fmt_h:"Every format.<br><em>Any niche.</em>",
+    fmt_sub:"Tell us what format fits your product. If you're not sure, we'll recommend the right one based on what you want to sell.",
+    f1_name:"Guide / Ebook", f1_desc:"Multi-chapter documents with callout boxes, checklists, exercises and visual structure. Designed to be read, not skimmed.",
+    f2_name:"Template / Workbook", f2_desc:"Editable documents with fillable fields, structured sections and formatted layouts. Built for buyers who need to write directly inside the file.",
+    f3_name:"Spreadsheet / Calculator", f3_desc:"Dynamic spreadsheets with formulas, dashboards, charts and automated calculations. Budget planners, trackers, scoring tools — anything data-driven.",
+    f4_name:"Presentation / Course", f4_desc:"Slide decks for online courses, workshops or visual content. Every slide has a layout, a visual element and a purpose. No blank slides, no filler.",
+    f5_name:"Interactive Tool / Quiz", f5_desc:"Calculators, quizzes, interactive checklists and mini-apps. A single file that opens in any browser with no installation or account required.",
+    f6_name:"Cheat Sheet / Quick Reference", f6_desc:"One or two pages. Dense, scannable, print-ready. The file your buyers pin above their desk and open before anything else.",
+    f7_name:"Notion Template", f7_desc:"Complete Notion workspaces with databases, properties, views and formulas — delivered with a step-by-step setup guide so your buyers can import and use it immediately.",
+    f8_name:"Dataset / Content Library", f8_desc:"Structured data files, resource banks and content libraries. Clean headers, UTF-8 encoding, ready to import into any tool or platform.",
+    f9_name:"Other formats", f9_desc:"Email sequences, video scripts, landing page copy, ePubs and more. If your product needs a format not listed here, tell us in the intake form — we'll confirm before any payment.",
+    faq_eyebrow:"FAQ",
+    faq_h:"Before you order.<br><em>Read this.</em>",
+    q1:"Do I need to provide the content or the text?",
+    a1:"No. You fill a focused intake form — your topic, your audience, what you want the product to do for them. We handle research, writing, design and formatting. You review and approve.",
+    q2:"Can I choose any combination of file formats?",
+    a2:"Yes. If you order the Bundle (3 files), you can choose any 3 formats from the list. Same for the Full Bundle (5 files). If you're not sure what combination makes sense for your product, tell us your topic and goal — we'll recommend the right structure.",
+    q3:"Can I sell the files I receive?",
+    a3:"Yes, full commercial rights. Once delivered and paid, the files are yours completely. Sell them anywhere — Gumroad, Etsy, Stan Store, your own site. No royalties, no credit required, no restrictions.",
+    q4:"What if I need changes after delivery?",
+    a4:"Each package includes revision rounds. Changes within the original scope are turned around within 48 hours. Requests outside the agreed scope — new topics, extra files — are treated as a new order. The intake form exists precisely to avoid this: a clear brief means no surprises.",
+    q5:"What niches and topics do you cover?",
+    a5:"Wellness, fitness, productivity, business, personal finance, coaching, education, mindset, and most adjacent areas. If your topic isn't listed, fill the intake form and describe your idea — we'll confirm before any payment is made.",
+    q6:"How is this different from buying a template on Etsy?",
+    a6:"A template is a blank structure you fill in yourself. What we deliver is a finished product — researched, written, and designed specifically for your topic and your audience. You receive files ready to sell, not files ready to edit.",
+    cta_h:"Your product.<br><em>Ready by end of week.</em>",
+    cta_sub:"Fill the intake form. We confirm the fit. You receive files ready to sell.",
+    cta_btn:"Start the intake form →",
+    foot:"Digital products built to sell."
+  },
+  it: {
+    nav_pkg:"Pacchetti", nav_fmt:"Formati file", nav_cta:"Ordina ora →",
+    badge:"Accettiamo ordini",
+    hero_h:"La maggior parte dei prodotti digitali<br>fallisce prima ancora di vendere.<br><em>I nostri no.</em>",
+    hero_sub:"Costruiamo prodotti digitali per creator, coach e aziende — da un singolo file a un bundle completo. Tu ci dici cosa ti serve. Noi consegniamo file pronti da vendere.",
+    hero_cta1:"Vedi i pacchetti →", hero_cta2:"Formati file ↓",
+    pkg_eyebrow:"Pacchetti",
+    pkg_h:"Tre pacchetti.<br><em>Qualsiasi formato.</em>",
+    pkg_sub:"Ogni file è ricercato, scritto e progettato da zero. Tu scegli quanti ne hai bisogno.",
+    p1_tier:"Singolo", p1_files:"1 file",
+    p1_tag:"Un file. Qualsiasi formato. Pronto per la vendita.",
+    p1_meta:"una tantum · consegna in 3 giorni · 1 revisione",
+    p1_1:"Qualsiasi formato: PDF, DOCX, XLSX, PPTX, HTML e altri",
+    p1_2:"Ricerca documentata e scritta da zero",
+    p1_3:"Design professionale — non un template riempito",
+    p1_4:"Pronto da caricare e vendere subito",
+    p2_tier:"Bundle", p2_files:"3 file",
+    p2_tag:"Un prodotto completo per cui il tuo pubblico paga senza esitare.",
+    p2_meta:"una tantum · consegna in 5 giorni · 2 revisioni",
+    p2_1:"Qualsiasi combinazione di 3 formati file",
+    p2_2:"Identità visiva coerente su tutti i file",
+    p2_3:"Ogni file progettato per un momento d'uso diverso",
+    p2_4:"Ricerca approfondita e metodologia documentata",
+    p2_5:"Tutti i file coordinati — funzionano come un sistema",
+    p3_tier:"Full Bundle", p3_files:"5 file",
+    p3_tag:"La versione completa. Niente che il tuo acquirente vorrebbe in più.",
+    p3_meta:"una tantum · consegna in 7 giorni · 3 revisioni",
+    p3_1:"Qualsiasi combinazione di 5 formati file",
+    p3_2:"Sistema di identità visiva completo su ogni file",
+    p3_3:"Guida di avvio inclusa — spiega ai tuoi acquirenti come usare ogni file",
+    p3_4:"Coda prioritaria — il tuo ordine va in testa alla lista",
+    p3_5:"3 round di revisione inclusi",
+    pkg_btn:"Inizia ora →", pkg_pop:"PIÙ ORDINATO",
+    fmt_eyebrow:"Formati file",
+    fmt_h:"Ogni formato.<br><em>Qualsiasi nicchia.</em>",
+    fmt_sub:"Dicci quale formato si adatta al tuo prodotto. Se non sei sicuro, ti consigliamo il formato giusto in base a quello che vuoi vendere.",
+    f1_name:"Guida / Ebook", f1_desc:"Documenti multi-capitolo con box callout, checklist, esercizi e struttura visiva. Progettati per essere letti, non scorsi.",
+    f2_name:"Template / Workbook", f2_desc:"Documenti modificabili con campi compilabili, sezioni strutturate e layout formattati. Per chi vuole scrivere direttamente nel file.",
+    f3_name:"Foglio di calcolo / Calcolatore", f3_desc:"Fogli di calcolo dinamici con formule, dashboard, grafici e calcoli automatici. Budget planner, tracker, strumenti di scoring — tutto ciò che è basato sui dati.",
+    f4_name:"Presentazione / Corso", f4_desc:"Slide deck per corsi online, workshop o contenuto visivo. Ogni slide ha un layout, un elemento visivo e uno scopo. Nessuna slide vuota, nessun riempitivo.",
+    f5_name:"Strumento interattivo / Quiz", f5_desc:"Calcolatori, quiz, checklist interattive e mini-app. Un file singolo che si apre in qualsiasi browser senza installazione né account.",
+    f6_name:"Cheat Sheet / Riferimento rapido", f6_desc:"Una o due pagine. Denso, leggibile a colpo d'occhio, pronto per la stampa. Il file che i tuoi acquirenti appendono sopra la scrivania e aprono prima di tutto il resto.",
+    f7_name:"Template Notion", f7_desc:"Workspace Notion completi con database, proprietà, viste e formule — consegnati con una guida di setup step-by-step per importarli e usarli subito.",
+    f8_name:"Dataset / Libreria di contenuti", f8_desc:"File di dati strutturati, banche risorse e librerie di contenuti. Intestazioni pulite, encoding UTF-8, pronti per essere importati in qualsiasi strumento.",
+    f9_name:"Altri formati", f9_desc:"Sequenze email, script video, copy per landing page, ePub e altro. Se il tuo prodotto richiede un formato non elencato, indicalo nel form di intake — confermiamo prima di qualsiasi pagamento.",
+    faq_eyebrow:"FAQ",
+    faq_h:"Prima di ordinare.<br><em>Leggi questo.</em>",
+    q1:"Devo fornire io il contenuto o il testo?",
+    a1:"No. Compili un form di intake mirato — il tuo argomento, il tuo pubblico, cosa vuoi che il prodotto faccia per loro. Noi gestiamo ricerca, scrittura, design e formattazione. Tu rivedi e approvi.",
+    q2:"Posso scegliere qualsiasi combinazione di formati file?",
+    a2:"Sì. Se ordini il Bundle (3 file), puoi scegliere qualsiasi 3 formati dalla lista. Lo stesso vale per il Full Bundle (5 file). Se non sei sicuro di quale combinazione abbia senso per il tuo prodotto, dicci il tuo argomento e obiettivo — ti consigliamo noi la struttura giusta.",
+    q3:"Posso vendere i file che ricevo?",
+    a3:"Sì, diritti commerciali completi. Una volta consegnati e pagati, i file sono tuoi completamente. Vendili ovunque — Gumroad, Etsy, Stan Store, il tuo sito. Nessuna royalty, nessun credito richiesto, nessuna restrizione.",
+    q4:"E se ho bisogno di modifiche dopo la consegna?",
+    a4:"Ogni pacchetto include round di revisione. Le modifiche entro lo scope originale vengono gestite entro 48 ore. Le richieste fuori dallo scope concordato — nuovi argomenti, file extra — richiedono un nuovo ordine. Il form di intake esiste proprio per evitare questo: un brief chiaro significa nessuna sorpresa.",
+    q5:"Quali nicchie e argomenti coprite?",
+    a5:"Wellness, fitness, produttività, business, finanza personale, coaching, educazione, mindset e la maggior parte delle aree adiacenti. Se il tuo argomento non è elencato, compila il form di intake e descrivi la tua idea — confermeremo prima di qualsiasi pagamento.",
+    q6:"Qual è la differenza rispetto a comprare un template su Etsy?",
+    a6:"Un template è una struttura vuota che riempi tu. Quello che consegniamo noi è un prodotto finito — ricercato, scritto e progettato specificamente per il tuo argomento e il tuo pubblico. Ricevi file pronti da vendere, non file pronti da modificare.",
+    cta_h:"Il tuo prodotto.<br><em>Pronto entro fine settimana.</em>",
+    cta_sub:"Compila il form di intake. Confermiamo la compatibilità. Ricevi file pronti da vendere.",
+    cta_btn:"Inizia il form di intake →",
+    foot:"Prodotti digitali costruiti per vendere."
+  }
+};
+
+function setLang(l) {
+  const t = T[l];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (t[k] !== undefined) el.innerHTML = t[k];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${l}')"]`).classList.add('active');
+  document.documentElement.lang = l;
+}
+
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!open) item.classList.add('open');
+  });
+});
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
